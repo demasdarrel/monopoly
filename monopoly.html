@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monopoly Game</title>
+    <style>
+        /* Add your CSS styling here */
+        /* This is just a basic example, you'll need more styles for a complete game */
+    </style>
+</head>
+<body>
+    <div id="board">
+        <!-- The Monopoly board will go here -->
+    </div>
+
+    <div id="players">
+        <!-- Player information will go here -->
+    </div>
+
+    <div id="controls">
+        <!-- Game controls (e.g., roll dice, buy property, end turn) will go here -->
+    </div>
+
+    <script>
+        // Add your JavaScript code here
+        // This is where you'll implement the game logic and interaction
+        // Define the Monopoly game object
+const MonopolyGame = {
+    board: [], // Array to represent the Monopoly board
+    players: [], // Array to store player objects
+    currentPlayerIndex: 0, // Index of the current player in the players array
+
+    // Function to initialize the game
+    init: function(numPlayers) {
+        // Initialize the board
+        this.board = [
+            "Go", "Mediterranean Avenue", "Community Chest", "Baltic Avenue", "Income Tax",
+            "Reading Railroad", "Oriental Avenue", "Chance", "Vermont Avenue", "Connecticut Avenue",
+            "Jail", "St. Charles Place", "Electric Company", "States Avenue", "Virginia Avenue",
+            "Pennsylvania Railroad", "St. James Place", "Community Chest", "Tennessee Avenue", "New York Avenue",
+            "Free Parking", "Kentucky Avenue", "Chance", "Indiana Avenue", "Illinois Avenue",
+            "B. & O. Railroad", "Atlantic Avenue", "Ventnor Avenue", "Water Works", "Marvin Gardens",
+            "Go To Jail", "Pacific Avenue", "North Carolina Avenue", "Community Chest", "Pennsylvania Avenue",
+            "Short Line", "Chance", "Park Place", "Luxury Tax", "Boardwalk"
+        ];
+
+        // Initialize players
+        this.players = [];
+        for (let i = 0; i < numPlayers; i++) {
+            this.players.push({
+                name: `Player ${i + 1}`,
+                position: 0,
+                money: 1500
+            });
+        }
+
+        console.log("Monopoly game initialized.");
+        this.displayBoard();
+    },
+
+    // Function to display the current board state
+    displayBoard: function() {
+        console.log("Current Board State:");
+        console.log(this.board);
+        console.log("Players:");
+        this.players.forEach(player => {
+            console.log(`${player.name} - Position: ${player.position}, Money: $${player.money}`);
+        });
+    },
+
+    // Function to simulate a dice roll
+    rollDice: function() {
+        return Math.floor(Math.random() * 6) + 1;
+    },
+
+    // Function to move the current player
+    movePlayer: function() {
+        const player = this.players[this.currentPlayerIndex];
+        const dice1 = this.rollDice();
+        const dice2 = this.rollDice();
+        const totalDice = dice1 + dice2;
+        console.log(`${player.name} rolled ${dice1} and ${dice2}. Total: ${totalDice}`);
+        player.position = (player.position + totalDice) % this.board.length;
+        console.log(`${player.name} moved to ${this.board[player.position]}`);
+    },
+
+    // Function to switch to the next player
+    nextPlayer: function() {
+        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
+        console.log(`Next player: ${this.players[this.currentPlayerIndex].name}`);
+    },
+
+    // Function to start the game
+    startGame: function(numPlayers) {
+        this.init(numPlayers);
+        console.log("Starting the game...");
+        while (true) {
+            this.movePlayer();
+            this.nextPlayer();
+            // Add conditions for ending the game (e.g., reaching a certain round)
+        }
+    }
+};
+
+// Start the game with 2 players
+MonopolyGame.startGame(2);
+
+    </script>
+</body>
+</html>
